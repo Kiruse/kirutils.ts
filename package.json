@@ -12,6 +12,7 @@
   "author": "kiruse",
   "license": "UNLICENSED",
   "dependencies": {
+    "@kiruse/typed-events": "^1.0.2",
     "chalk": "^5.3.0",
     "yaml": "^2.4.1"
   },

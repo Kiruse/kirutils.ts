@@ -1,11 +1,27 @@
 import fs from 'fs/promises';
 import path from 'path';
 
-export function envar(name: string): string {
-  if (!process.env[name]) {
-    throw new Error(`Environment variable ${name} is not set`);
+export function envar(name: string): string;
+export function envar(name: string, defaultValue: string): string;
+export function envar(...args: any[]): string {
+  if (args.length === 1) {
+    const [name] = args;
+    if (!process.env[name]) {
+      throw new Error(`Environment variable ${name} is not set`);
+    }
+    return process.env[name]!;
+  } else {
+    const [name, defaultValue] = args;
+    return process.env[name] ?? defaultValue;
   }
-  return process.env[name]!;
+}
+
+export function envarBool(name: string): boolean;
+export function envarBool(name: string, defaultValue: boolean): boolean;
+export function envarBool(...args: any[]): boolean {
+  //@ts-ignore
+  const value: any = envar(...args);
+  return value === 'true' || value === true || value === '1' || value === 1;
 }
 
 export async function findAncestorFile(dir: string, file: string): Promise<string> {

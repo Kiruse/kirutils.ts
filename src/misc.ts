@@ -21,7 +21,7 @@ export async function findAncestorFile(dir: string, file: string): Promise<strin
   throw new Error(`Failed to locate ${file} in ancestor path of "${dir}"`);
 }
 
-export const findPackageRoot = (dir: string) => findAncestorFile(dir, 'package.json');
+export const findPackageRoot = async (dir: string) => path.dirname(await findAncestorFile(dir, 'package.json'));
 
 export async function findFiles(root: string, pred: (file: string) => boolean): Promise<string[]> {
   let result: string[] = [];

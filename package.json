@@ -1,6 +1,6 @@
 {
   "name": "kirutils",
-  "version": "0.1.0",
+  "version": "0.1.0-fix.1",
   "description": "Utilities I frequently use in my projects",
   "main": "src/index.ts",
   "types": "dist/index.d.ts",

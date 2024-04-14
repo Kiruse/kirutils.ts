@@ -2,15 +2,15 @@
   "name": "kirutils",
   "version": "0.1.0-fix.1",
   "description": "Utilities I frequently use in my projects",
-  "types": "dist/index.d.ts",
   "type": "module",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": "./dist/index.js",
-    "./source": "./src/index.ts"
+    "./src": "./src/index.ts",
+    "./src/*": "./src/*"
   },
   "scripts": {
     "prepare": "tsc -p tsconfig.build.json",
-    "postinstall": "npm run prepare",
     "test": "bun test"
   },
   "author": "kiruse",

@@ -59,3 +59,8 @@ export const toSnakeCase  = (str: string) => toCamelCase(str).replace(/[A-Z]+/g,
 export const toShoutCase  = (str: string) => toSnakeCase(str).toUpperCase();
 export const toKebabCase  = (str: string) => toCamelCase(str).replace(/[A-Z]+/g, c => `-${c.toLowerCase()}`);
 export const toPascalCase = (str: string) => toCamelCase(str).replace(/^./, c => c.toUpperCase());
+
+/** Get the exponential backoff timeout for the given `attempt`. `max` is used to compute the upper
+ * limit of the backoff timeout in number of attempts - i.e. the timeout will not exceed `base ** max`.
+ */
+export const getBackoffTimeout = (attempt: number, max = 12, base = 2) => base ** Math.min(attempt, max) * 1000;

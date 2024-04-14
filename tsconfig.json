@@ -9,7 +9,7 @@
     "esModuleInterop": true,
     "rootDir": "src",
     "outDir": "dist",
-    "types": ["node"],
+    "types": ["bun-types"],
   },
   "include": ["src/**/*"],
 }

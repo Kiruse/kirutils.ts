@@ -46,8 +46,11 @@ export class Validator<T> extends Inspector {
     return this.assert(value !== undefined, `Missing property ${stringifyKeyPath(keypath)}`);
   }
 
-  at(keypath: PropertyKey[], callback: (inspector: Inspector) => void) {
-    callback(new Inspector(getDeep(this.subject, keypath), stringifyKeyPath(keypath)));
+  at(keypath: PropertyKey[], callback: (val: Inspector) => void) {
+    console.log(Array.from(iterateDeep(this.subject, keypath)));
+    for (const [path, value] of iterateDeep(this.subject, keypath)) {
+      callback(new Inspector(value, stringifyKeyPath(path)));
+    }
     return this;
   }
 
@@ -58,6 +61,31 @@ export class Validator<T> extends Inspector {
 }
 
 const getDeep = (obj: any, keypath: PropertyKey[]) => keypath.reduce((acc, key) => acc?.[key], obj);
+
+function* iterateDeep(obj: any, keypath: PropertyKey[], depth = 0): Generator<[PropertyKey[], any]> {
+  for (let i = depth; i < keypath.length; i++) {
+    const key = keypath[i];
+    if (key === '*') {
+      if (Array.isArray(obj)) {
+        for (let j = 0; j < obj.length; j++) {
+          const localKeypath = keypath.slice();
+          localKeypath[depth] = j;
+          yield* iterateDeep(obj[j], localKeypath, i + 1);
+        }
+      } else {
+        for (const key in obj) {
+          const localKeypath = keypath.slice();
+          localKeypath[depth] = key;
+          yield* iterateDeep(obj[key], localKeypath, i + 1);
+        }
+      }
+      return;
+    } else {
+      obj = obj[key];
+    }
+  }
+  yield [keypath, obj];
+}
 
 export class ValidationError extends Error {
   constructor(message: string) {

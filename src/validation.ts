@@ -1,6 +1,6 @@
 type Ctor = new (...args: any[]) => any;
 
-export default function validate<T>(subject: any) {
+export function validate<T>(subject: any) {
   return new Validator<T>(subject);
 }
 

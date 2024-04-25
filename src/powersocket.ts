@@ -77,12 +77,12 @@ export class PowerSocket<T = string | Buffer> {
     const closer = this.onClose.once(() => clearTimeout(timeout));
   }
 
-  close(closeCode = 1000) {
+  close(closeCode = 1000, reason?: string) {
     this.#connected = false;
     this.#reconnecting = false;
     // cleanup before close prevents onClose callback from being called
     this.#cleanup();
-    this.#ws?.close(closeCode);
+    this.#ws?.close(closeCode, reason);
     this.onClose.emit({ code: closeCode, source: 'local' });
     return this;
   }

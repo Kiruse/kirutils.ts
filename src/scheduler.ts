@@ -2,7 +2,7 @@ import { Event } from '@kiruse/typed-events';
 import path from 'path';
 import { findFiles } from './misc.js';
 
-interface ScheduledTask {
+export interface ScheduledTask {
   /** Schedule either as interval or as HH:MM time. It is not very complex unlike cron jobs.
    * Intervals are calculated from the start of the day at midnight. Meaning an interval of 7m will
    * last run at 23:55, and then again at 00:07 the next day.
@@ -18,6 +18,24 @@ interface ScheduledTask {
   handler(): Promise<void> | void;
 }
 
+/**
+ * Runs `.coffee` scripts in the specified directory as scheduled tasks. These tasks are dynamically
+ * imported, and are expected to expose an interface matching `ScheduledTask`.
+ *
+ * Example script:
+ * ```coffee
+ * export schedule = '**:00' # run the script at every full hour
+ * export handler = ->
+ *   # do something
+ * ```
+ *
+ * The schedule can also be denominated in `'<number>[m|h]'` and as an array of multiple values.
+ * For example, `['6:00', '18:00']` will run the script at 6:00 and 18:00.
+ *
+ * Scripts do not take any arguments. This scheduler makes use of bun's ability to load non-js files.
+ *
+ * This function returns the cancellation function. Call it to stop the scheduler.
+ */
 export function runSchedules(basepath: string) {
   let timeout: any, interval: any;
   const onError = Event<{ file?: string, error: any }>();

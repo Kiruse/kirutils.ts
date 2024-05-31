@@ -1,6 +1,6 @@
 {
-  "name": "kirutils",
-  "version": "0.1.0-fix.1",
+  "name": "@kiruse/utils",
+  "version": "0.2.0",
   "description": "Utilities I frequently use in my projects",
   "type": "module",
   "types": "./dist/index.d.ts",

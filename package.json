@@ -6,8 +6,8 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": "./dist/index.js",
-    "./src": "./src/index.ts",
-    "./src/*": "./src/*"
+    "./ts": "./src/index.ts",
+    "./ts/*": "./src/*"
   },
   "scripts": {
     "prepare": "tsc -p tsconfig.build.json",

@@ -1,4 +1,5 @@
 import { Event } from '@kiruse/typed-events';
+import { DateTime } from 'luxon';
 import path from 'path';
 import { findFiles } from './misc.js';
 
@@ -77,7 +78,7 @@ export function runSchedules(basepath: string) {
 const getSchedule = (basepath: string) => findFiles(basepath, file => file.endsWith('.coffee'));
 
 function isScheduled({ schedule = 1 }: ScheduledTask): boolean {
-  const now = new Date();
+  const now = DateTime.now().toUTC().toJSDate();
   const hour = now.getHours().toString().padStart(2, '0');
   const minute = now.getMinutes().toString().padStart(2, '0');
   const time = `${hour}:${minute}`;

@@ -78,10 +78,7 @@ export function runSchedules(basepath: string) {
 const getSchedule = (basepath: string) => findFiles(basepath, file => file.endsWith('.coffee'));
 
 function isScheduled({ schedule = 1 }: ScheduledTask): boolean {
-  const now = DateTime.now().toUTC().toJSDate();
-  const hour = now.getHours().toString().padStart(2, '0');
-  const minute = now.getMinutes().toString().padStart(2, '0');
-  const time = `${hour}:${minute}`;
+  const time = DateTime.now().toUTC().toLocaleString(DateTime.TIME_24_SIMPLE);
 
   function pred(s: string | number | ((time: string) => boolean)) {
     if (typeof s === 'number') return Date.now() % (s * 60000) === 0;
